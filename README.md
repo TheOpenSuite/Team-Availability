@@ -184,11 +184,11 @@ The basic testing file.
 # Screenshots
 
 Example shell run:
-![[Pasted image 20250917022040.png]]
+<img width="588" height="979" alt="Pasted image 20250917022040" src="https://github.com/user-attachments/assets/1f607295-d24d-4f82-bf19-1057c9b1da50" />
 
 Website running:
 
-![[Pasted image 20250917022121.png]]
+<img width="968" height="579" alt="Pasted image 20250917022121" src="https://github.com/user-attachments/assets/0df12366-6af4-42a6-91de-720df373d098" />
 
 ---
 # Documentations used:
