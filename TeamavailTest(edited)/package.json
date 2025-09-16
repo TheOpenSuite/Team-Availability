@@ -1,0 +1,24 @@
+{
+  "name": "version-1",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "eslint": "9.35.0",
+    "eslint-config-prettier": "9.1.0",
+    "prettier": "3.3.3",
+    "supertest": "^7.1.4"
+  }
+}
