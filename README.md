@@ -175,10 +175,20 @@ The basic testing file.
 5. Make the shell script executable
 6. Run the script `./ci.sh`
 7. Open the app at: `http://localhost:3000`
+
 *Manual installation of certain plugins if needed:*
 - *sudo apt install jest*
 - *npm install supertest --save-dev*
 - *npm install --save-dev eslint prettier*
+---
+# Screenshots
+
+Example shell run:
+![[Pasted image 20250917022040.png]]
+
+Website running:
+
+![[Pasted image 20250917022121.png]]
 
 ---
 # Documentations used:
