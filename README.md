@@ -194,7 +194,11 @@ Website running:
 ---
 # Documentations used:
 [Prettier](https://prettier.io/docs/configuration.html)
+
 [ESlint](https://eslint.org/docs/latest/use/configure/)
+
 [Jest](https://jestjs.io/docs/getting-started)
+
 [Supertest](https://www.npmjs.com/package/supertest)
-[npm1](https://docs.npmjs.com/cli/v11/commands)[npm2](https://docs.npmjs.com/packages-and-modules)
+
+[npm1](https://docs.npmjs.com/cli/v11/commands) [npm2](https://docs.npmjs.com/packages-and-modules)
