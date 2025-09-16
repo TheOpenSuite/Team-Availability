@@ -184,6 +184,7 @@ The basic testing file.
 # Screenshots
 
 Example shell run:
+
 <img width="588" height="979" alt="Pasted image 20250917022040" src="https://github.com/user-attachments/assets/1f607295-d24d-4f82-bf19-1057c9b1da50" />
 
 Website running:
