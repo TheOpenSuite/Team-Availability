@@ -192,6 +192,67 @@ Website running:
 <img width="968" height="579" alt="Pasted image 20250917022121" src="https://github.com/user-attachments/assets/0df12366-6af4-42a6-91de-720df373d098" />
 
 ---
+# Jenkins CI/CD Pipeline
+
+To automate the project's build, linting, formatting, and testing processes, a Jenkins CI/CD pipeline was set up. This pipeline integrates with GitHub to automatically trigger a build whenever changes are pushed to the repository.
+
+## Steps for Jenkins Configuration:
+
+1.  **Start Jenkins via Docker:** The Jenkins server was launched using Docker with the command:
+```bash
+sudo docker run -d -p 8080:8080 -p 50000:50000 \
+-v jenkins_home:/var/jenkins_home \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v $(which docker):/usr/bin/docker jenkins/jenkins:lts-jdk17
+```
+This command maps the necessary ports, persists the Jenkins data in a Docker volume (*jenkins_home*), and mounts the host's Docker socket to allow Jenkins to run Docker commands.
+
+2.  **Access and Initial Setup:** I accessed Jenkins via `http://localhost:8080`, followed the initial setup wizard to install the needed plugins (nodejs, docker).
+
+3.  **Create a New Pipeline:** I created a new pipeline job, configured it to connect to the GitHub repository, and added credentials (a GitHub token) to securely access the repository.
+
+4.  **Configure the Pipeline Script:** The pipeline was set to use a *Jenkinsfile*. The pipeline's build step was configured to handle all the project's build logic, including dependency installation, linting, formatting, testing, and Docker operations.
+
+5.  **Run the Build:** Upon running the pipeline, Jenkins cloned the repository and executed on the host machine. It ran all the defined stages: prerequisite checks, npm dependency installation, linting, formatting, testing, and the Docker build and compose process. The web application became accessible at `http://localhost:3000`.
+
+## Problems Encountered and Solutions:
+
+1.  **Docker Permissions Issue (Jenkins Container):** Initially, the Jenkins container couldn't access the Docker daemon on the host, leading to permission errors. This was resolved by entering the Jenkins container as the root user and granting the necessary permissions to the Docker socket.
+```bash
+sudo docker exec -u 0 -it <CONTAINER_NUM> bash
+chmod 666 /var/run/docker.sock
+```
+This command temporarily fixes the issue by allowing all users inside the container to interact with the Docker socket.
+
+2.  **Docker Pull Permission Issue:** I faced another permission issue when the Jenkins pipeline tried to pull a Docker image. The credentials or configuration inside the container were preventing the pull. I resolved this by accessing the container and removing the *config.json* file, which seemed to be causing the issue.
+```bash
+sudo docker exec -it <CONTAINER_NUM> bash
+cd /var/jenkins_home/.docker
+rm config.json
+```
+Afterward, I restarted the Jenkins container to apply the changes.
+
+3.  **Node.js Versioning Issue:** The pipeline's npm commands failed due to an outdated Node.js version detected within the Jenkins environment. The npm dependencies, particularly for testing, required a newer version of Node.js. This was fixed by upgrading the Node.js installation within Jenkins's global tool configuration from `20.0.0` to `20.9.0`. This ensured that the *npm ci* and other scripts ran correctly.
+
+---
+# The Terraform Workflow
+
+Using Terraform is a straightforward, three-step process that allows you to manage infrastructure as code. This approach ensures your infrastructure is reproducible and version-controlled. 
+
+---
+### Steps to run:
+1. terraform init
+2. terraform plan
+3. terraform apply
+
+The *main.tf* file I created defines the desired state of my infrastructure. When I run *terraform apply*, Terraform works to make the actual infrastructure match that desired state, creating a *local_file* and a *random_pet* resource.
+### Explanation of the Terraform Files
+
+* **`main.tf`**: This file contains the core of your configuration, the resources needed to create. In this case, it defines a *random_pet* resource to generate a unique name and a *local_file* resource to create a text file on the local machine, simulating a configuration file for a server.
+* **`providers.tf`**: This file is used to declare and configure the providers that Terraform needs to use. It tells Terraform which providers to download and their required versions, keeping the resource definitions clean.
+* **`output.tf`**: This file defines the outputs of the configuration. In this case, it outputs the generated server name and the content of the *local_file*, which are useful for verification and further automation.
+
+---
 # Documentations used:
 [Prettier](https://prettier.io/docs/configuration.html)
 
@@ -202,3 +263,7 @@ Website running:
 [Supertest](https://www.npmjs.com/package/supertest)
 
 [npm1](https://docs.npmjs.com/cli/v11/commands) [npm2](https://docs.npmjs.com/packages-and-modules)
+
+[HashiCorp local](https://registry.terraform.io/providers/hashicorp/local/latest) / [GitHub](https://github.com/hashicorp/terraform-provider-local)
+
+[HashiCorp random](registry.terraform.io/providers/hashicorp/random/latest/docs) / [GitHub](https://github.com/hashicorp/terraform-provider-random)
