@@ -28,7 +28,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                dir('TeamavailTest') {
+                dir('TeamavailTest(edited)') {
                     script {
                         if (fileExists('package.json')) {
                             echo "### Installing Node.js dependencies"
@@ -43,7 +43,7 @@ pipeline {
 
         stage('Lint & Format') {
             steps {
-                dir('TeamavailTest') {
+                dir('TeamavailTest(edited)') {
                     script {
                         def lintStatus = sh(script: "npm run lint || true", returnStatus: true)
                         if (lintStatus == 0) {
@@ -67,7 +67,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                dir('TeamavailTest') {
+                dir('TeamavailTest(edited)') {
                     script {
                         def testStatus = sh(script: "npm run test || true", returnStatus: true)
                         if (testStatus == 0) {
@@ -84,16 +84,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "### Building Docker image: teamavail:local"
-                sh 'docker build -t teamavail:local -f TeamavailTest/Dockerfile ./TeamavailTest'
+                sh 'docker build -t teamavail:local -f TeamavailTest(TeamavailTest)/Dockerfile ./TeamavailTest(TeamavailTest)'
             }
         }
 
         stage('Docker Compose') {
             steps {
                 script {
-                    if (fileExists('TeamavailTest/docker-compose.yml')) {
+                    if (fileExists('/docker-compose.yml')) {
                         echo "### Starting with docker compose"
-                        sh 'docker compose -f TeamavailTest/docker-compose.yml up -d --build'
+                        sh 'docker compose -f /docker-compose.yml up -d --build'
                         echo "### Status:"
                         sh 'docker ps --filter "ancestor=teamavail:local" --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
                     } else {
