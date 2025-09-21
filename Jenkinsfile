@@ -12,15 +12,16 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                // Assuming the code is in a Git repository
                 git url: 'https://github.com/TheOpenSuite/Team-Availability.git' 
             }
         }
 
         stage('Check Prerequisites') {
             steps {
-                docker.withTool('docker') {
-                    echo "Docker is installed and ready."
+                script{
+                    docker.withTool('docker') {
+                        echo "Docker is installed and ready."
+                    }
                 }
             }
         }
