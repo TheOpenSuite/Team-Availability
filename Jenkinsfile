@@ -87,16 +87,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "### Building Docker image: teamavail:local"
-                sh 'docker build -t teamavail:local -f "TeamavailTest(TeamavailTest)/Dockerfile" "./TeamavailTest(TeamavailTest)"'
+                sh 'docker build -t teamavail:local -f "TeamavailTest(edited)/Dockerfile" "./TeamavailTest(edited)"'
             }
         }
 
         stage('Docker Compose') {
             steps {
                 script {
-                    if (fileExists('TeamavailTest(TeamavailTest)/docker-compose.yml')) {
+                    if (fileExists('TeamavailTest(edited)/docker-compose.yml')) {
                         echo "### Starting with docker compose"
-                        sh 'docker compose -f "TeamavailTest(TeamavailTest)/docker-compose.yml" up -d --build'
+                        sh 'docker compose -f "TeamavailTest(edited)/docker-compose.yml" up -d --build'
                         echo "### Status:"
                         sh 'docker ps --filter "ancestor=teamavail:local" --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
                     } else {
@@ -107,3 +107,4 @@ pipeline {
         }
     }
 }
+
