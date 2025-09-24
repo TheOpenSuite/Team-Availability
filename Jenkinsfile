@@ -28,7 +28,6 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Use double quotes around the directory name with special characters
                 dir('TeamavailTest(edited)') {
                     script {
                         if (fileExists('package.json')) {
@@ -44,7 +43,6 @@ pipeline {
 
         stage('Lint & Format') {
             steps {
-                // Use double quotes around the directory name
                 dir('TeamavailTest(edited)') {
                     script {
                         def lintStatus = sh(script: "npm run lint || true", returnStatus: true)
@@ -69,7 +67,6 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                // Use double quotes around the directory name
                 dir('TeamavailTest(edited)') {
                     script {
                         def testStatus = sh(script: "npm run test || true", returnStatus: true)
